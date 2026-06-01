@@ -3,8 +3,11 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingCommandBar = false
     @State private var newUrl = ""
-    @State var tabs: [Tab] = [Tab(url: "https://apple.com")]
-    @State var curTab: Tab = Tab(url: "https://apple.com")
+    @State private var tabs: [Tab] = {
+        let tab = Tab(url: "https://apple.com")
+        return [tab]
+    }()
+    @State private var curTab = Tab(url: "https://apple.com")
     
     var body: some View {
         ZStack(alignment: .center) {
