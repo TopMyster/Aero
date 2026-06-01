@@ -3,7 +3,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingCommandBar = false
     @State private var newUrl = ""
-    @State private var tabs: [Tab] = [Tab(url: "https://apple.com")]
+    @State private var tabs: [Tab] = [Tab(url: "https://apple.com", webView: WebView(url: URL(string: "https://apple.com")!))
+]
     @State private var curTab: UUID = UUID()
 
     var currentIndex: Int? {
@@ -58,22 +59,13 @@ struct ContentView: View {
                 }
                 .frame(width: 200)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
-
-                if let index = currentIndex,
-                   let url = URL(string: tabs[index].url) {
-
-                    WebView(url: url)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.white.opacity(1/4))
-                        .clipShape(.rect(cornerRadius: 10))
-                        .padding(.vertical, 5)
-                        .padding(.trailing, 5)
-                        .ignoresSafeArea()
-
-                } else {
-                    Image(systemName: "globe")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+                tabs[currentIndex ?? 0].webView
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.white.opacity(1/4))
+                    .clipShape(.rect(cornerRadius: 10))
+                    .padding(.vertical, 5)
+                    .padding(.trailing, 5)
+                    .ignoresSafeArea()
             }
         }
         .onAppear {
@@ -108,7 +100,7 @@ struct ContentView: View {
                                 formatted = "https://www.google.com/search?q=\(query)"
                             }
 
-                            let newTab = Tab(url: formatted)
+                            let newTab = Tab(url: formatted, webView: WebView(url: URL(string: formatted)!))
 
                             tabs.append(newTab)
                             curTab = newTab.id

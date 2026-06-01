@@ -9,6 +9,13 @@ import SwiftUI
 
 struct Tab: Identifiable {
     var id = UUID()
-    var url: String = ""
+    var url: String 
+    var webView: WebView
+    
+    init(id: UUID = UUID(), url: String, webView: WebView) {
+        self.id = id
+        self.url = url
+        self.webView = WebView(url: URL(string: url)!)
+    }
 }
 
