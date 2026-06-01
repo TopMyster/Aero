@@ -3,25 +3,26 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingCommandBar = false
     @State private var newUrl = ""
-    @State private var tabs: [Tab] = {
-        let tab = Tab(url: "https://apple.com")
-        return [tab]
-    }()
-    @State private var curTab = Tab(url: "https://apple.com")
-    
+    @State private var tabs: [Tab] = [Tab(url: "https://apple.com")]
+    @State private var curTab: UUID = UUID()
+
+    var currentIndex: Int? {
+        tabs.firstIndex { $0.id == curTab }
+    }
+
     var body: some View {
         ZStack(alignment: .center) {
             HStack(spacing: 0) {
-                // Sidebar
+
                 VStack(alignment: .leading) {
-                    //Navigation
-    
-                    //Searchbar
+
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
+
                         TextField("Search", text: $newUrl)
                             .onSubmit {
+
                                 var formatted: String
 
                                 if newUrl.hasPrefix("http://") || newUrl.hasPrefix("https://") {
@@ -32,7 +33,10 @@ struct ContentView: View {
                                     let query = newUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                                     formatted = "https://www.google.com/search?q=\(query)"
                                 }
-                                curTab.url = formatted
+
+                                if let index = currentIndex {
+                                    tabs[index].url = formatted
+                                }
                             }
                     }
                     .textFieldStyle(.plain)
@@ -41,18 +45,23 @@ struct ContentView: View {
                     .background(.ultraThinMaterial)
                     .clipShape(.rect(cornerRadius: 10))
                     .padding(5)
-                    //Tabs
+
                     ScrollView {
-                        TabsView(tabs: $tabs, curTab: $curTab, showingCommandBar: $showingCommandBar)
+                        TabsView(
+                            tabs: $tabs,
+                            curTab: $curTab,
+                            showingCommandBar: $showingCommandBar
+                        )
                     }
+
                     Spacer()
-                    
                 }
                 .frame(width: 200)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
-                
-                // Web
-                if let url = URL(string: curTab.url) {
+
+                if let index = currentIndex,
+                   let url = URL(string: tabs[index].url) {
+
                     WebView(url: url)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(.white.opacity(1/4))
@@ -60,12 +69,19 @@ struct ContentView: View {
                         .padding(.vertical, 5)
                         .padding(.trailing, 5)
                         .ignoresSafeArea()
+
                 } else {
                     Image(systemName: "globe")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-        }.onTapGesture {
+        }
+        .onAppear {
+            if let first = tabs.first {
+                curTab = first.id
+            }
+        }
+        .onTapGesture {
             showingCommandBar = false
         }
         .overlay {
@@ -80,6 +96,7 @@ struct ContentView: View {
                     CommandBarView(newUrl: $newUrl)
                         .clipShape(.rect(cornerRadius: 15))
                         .onSubmit {
+
                             var formatted: String
 
                             if newUrl.hasPrefix("http://") || newUrl.hasPrefix("https://") {
@@ -90,9 +107,12 @@ struct ContentView: View {
                                 let query = newUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
                                 formatted = "https://www.google.com/search?q=\(query)"
                             }
+
                             let newTab = Tab(url: formatted)
+
                             tabs.append(newTab)
-                            curTab = newTab
+                            curTab = newTab.id
+
                             newUrl = ""
                             showingCommandBar = false
                         }

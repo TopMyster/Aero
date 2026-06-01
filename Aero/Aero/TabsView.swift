@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TabsView: View {
     @Binding var tabs: [Tab]
-    @Binding var curTab: Tab
+    @Binding var curTab: UUID
     @Binding var showingCommandBar: Bool
 
     var body: some View {
@@ -29,8 +29,8 @@ struct TabsView: View {
 
             ForEach(tabs, id: \.id) { tab in
                 Button {
-                    if curTab.id != tab.id {
-                        curTab = tab
+                    if curTab != tab.id {
+                        curTab = tab.id
                     }
                 } label: {
                     Text(tab.url)
@@ -43,7 +43,7 @@ struct TabsView: View {
                 .buttonStyle(.plain)
                 .padding(.horizontal, 8)
                 .background {
-                    if curTab.id == tab.id {
+                    if curTab == tab.id {
                             RoundedRectangle(cornerRadius: 8)
                                 .fill(Color.white.opacity(0.25))
                                 .padding(.horizontal, 6)
