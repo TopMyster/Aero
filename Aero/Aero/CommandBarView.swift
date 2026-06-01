@@ -10,11 +10,15 @@ import SwiftUI
 struct CommandBarView: View {
     @Binding var newUrl: String
     var body: some View {
-        TextField("Search Here...", text: $newUrl)
-            .textFieldStyle(.plain)
-            .padding(15)
-            .frame(width: 480)
-            .font(.system(size: 20))
-            .background(.ultraThinMaterial)
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .padding(10)
+            TextField("Search Here...", text: $newUrl)
+                .textFieldStyle(.plain)
+        }
+        .frame(width: 480)
+        .font(.system(size: 18))
+        .background(.ultraThinMaterial)
+        .shadow(radius: 15)
     }
 }
