@@ -23,3 +23,5 @@ Aero is a native, simplistic browser for macOS built in Swift. Aimed to be a gre
  - AI sidebar
  - PiP
 
+Logo made by [Luiggi](https://github.com/luiggircardoso)
+
