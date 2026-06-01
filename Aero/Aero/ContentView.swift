@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var searchText: String = ""
     @State private var showingCommandBar = false
     @State private var newUrl = ""
     @State var tabs: [Tab] = [Tab(url: "https://apple.com")]
@@ -18,9 +17,19 @@ struct ContentView: View {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
-                        TextField("Search", text: $searchText)
+                        TextField("Search", text: $newUrl)
                             .onSubmit {
-                                curTab.url = searchText
+                                var formatted: String
+
+                                if newUrl.hasPrefix("http://") || newUrl.hasPrefix("https://") {
+                                    formatted = newUrl
+                                } else if newUrl.contains(".") {
+                                    formatted = "https://" + newUrl
+                                } else {
+                                    let query = newUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                                    formatted = "https://www.google.com/search?q=\(query)"
+                                }
+                                curTab.url = formatted
                             }
                     }
                     .textFieldStyle(.plain)
@@ -68,8 +77,19 @@ struct ContentView: View {
                     CommandBarView(newUrl: $newUrl)
                         .clipShape(.rect(cornerRadius: 15))
                         .onSubmit {
-                            tabs.append(Tab(url: newUrl))
-                            curTab = Tab(url: newUrl)
+                            var formatted: String
+
+                            if newUrl.hasPrefix("http://") || newUrl.hasPrefix("https://") {
+                                formatted = newUrl
+                            } else if newUrl.contains(".") {
+                                formatted = "https://" + newUrl
+                            } else {
+                                let query = newUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                                formatted = "https://www.google.com/search?q=\(query)"
+                            }
+                            let newTab = Tab(url: formatted)
+                            tabs.append(newTab)
+                            curTab = newTab
                             newUrl = ""
                             showingCommandBar = false
                         }

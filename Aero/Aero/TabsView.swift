@@ -19,12 +19,13 @@ struct TabsView: View {
                 showingCommandBar = true
             } label: {
                 Label("New Tab", systemImage: "plus")
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 6)
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .opacity(0.6)
             }
             .buttonStyle(.plain)
-            .opacity(0.6)
+            .padding(.horizontal, 8)
 
             ForEach(tabs, id: \.id) { tab in
                 Button {
@@ -35,14 +36,19 @@ struct TabsView: View {
                     Text(tab.url)
                         .lineLimit(1)
                         .truncationMode(.tail)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: 180, alignment: .leading)
                         .padding(.vertical, 6)
                         .padding(.horizontal, 12)
                 }
                 .buttonStyle(.plain)
-                .background(
-                    curTab.id == tab.id ? Color.gray.opacity(0.2) : Color.clear
-                )
+                .padding(.horizontal, 8)
+                .background {
+                    if curTab.id == tab.id {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.white.opacity(0.25))
+                                .padding(.horizontal, 6)
+                        }
+                }
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             }
         }
