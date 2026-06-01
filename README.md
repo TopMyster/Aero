@@ -1,16 +1,18 @@
 # Aero
 A native macOS browser
 
-## Overview
+https://github.com/user-attachments/assets/a05f4abe-9862-4afe-9edf-16b777568c1e
+
+### Overview
 Aero is a native, simplistic browser for macOS built in Swift. Aimed to be a great browser running on WebKit. 
 
-## Features
+### Features
  - Vertical Tabs
  - Command Bar
  - Native 
  - WebKit
 
-## To-Do 
+### To-Do 
  - Navigation 
  - GPT in CMD Bar
  - Color Themes
