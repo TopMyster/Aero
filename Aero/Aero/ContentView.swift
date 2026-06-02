@@ -116,7 +116,11 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        }
+        }.background {
+            Button("") {
+                showingCommandBar.toggle()
+            }.opacity(0)
+        }.keyboardShortcut("t", modifiers: .command)
     }
 }
 

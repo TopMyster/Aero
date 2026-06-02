@@ -10,7 +10,8 @@ struct TabsView: View {
     @Binding var tabs: [Tab]
     @Binding var curTab: UUID
     @Binding var showingCommandBar: Bool
-    @State private var isHovering: Bool = false
+
+    @State private var hoveredTabId: UUID?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -29,10 +30,9 @@ struct TabsView: View {
 
             ForEach(tabs, id: \.id) { tab in
                 HStack(spacing: 0) {
+
                     Button {
-                        if curTab != tab.id {
-                            curTab = tab.id
-                        }
+                        curTab = tab.id
                     } label: {
                         Text(tab.url)
                             .lineLimit(1)
@@ -42,8 +42,9 @@ struct TabsView: View {
                             .padding(.horizontal, 12)
                     }
                     .buttonStyle(.plain)
-                    
+
                     Spacer()
+
                     Button {
                         closeTab(tab.id)
                     } label: {
@@ -55,32 +56,38 @@ struct TabsView: View {
                     }
                     .buttonStyle(.plain)
                     .padding(.trailing, 12)
-                    .opacity(isHovering ? 1.0 : 0.0)
+                    .opacity(hoveredTabId == tab.id ? 1.0 : 0.0)
                 }
                 .padding(.horizontal, 8)
-                .background {
-                    if curTab == tab.id {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.white.opacity(0.25))
-                            .padding(.horizontal, 6)
-                            .opacity(isHovering ? 1.0 : 0.0)
+                .background(
+                    curTab == tab.id
+                    ? RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.white.opacity(0.25))
+                        .padding(.horizontal, 6)
+                    : nil
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .onHover { isHovering in
+                    if isHovering {
+                        hoveredTabId = tab.id
+                    } else if hoveredTabId == tab.id {
+                        hoveredTabId = nil
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-            }
-            .onHover { hovering in
-                isHovering = hovering
             }
         }
         .padding(.top, 4)
     }
 
     private func closeTab(_ id: UUID) {
-        if let index = tabs.firstIndex(where: { $0.id == id }) {
-            if curTab == id && tabs.count > 1 {
-                curTab = tabs[index == 0 ? 1 : index - 1].id
-            }
-            tabs.remove(at: index)
+        guard let index = tabs.firstIndex(where: { $0.id == id }) else {
+            return
         }
+
+        if curTab == id && tabs.count > 1 {
+            curTab = tabs[index == 0 ? 1 : index - 1].id
+        }
+
+        tabs.remove(at: index)
     }
 }
