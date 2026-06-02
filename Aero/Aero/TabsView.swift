@@ -68,11 +68,11 @@ struct TabsView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             }
+            .onHover { hovering in
+                isHovering = hovering
+            }
         }
         .padding(.top, 4)
-        .onHover { hovering in
-            isHovering = hovering
-        }
     }
 
     private func closeTab(_ id: UUID) {
