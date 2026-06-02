@@ -15,7 +15,7 @@ struct ContentView: View {
         ZStack(alignment: .center) {
             HStack(spacing: 0) {
 
-                VStack(alignment: .leading) {
+                VStack(alignment: .center) {
 
                     HStack {
                         Image(systemName: "magnifyingglass")
@@ -41,9 +41,9 @@ struct ContentView: View {
                             }
                     }
                     .textFieldStyle(.plain)
-                    .frame(width: 170, height: 30)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 6))
-                    .background(.ultraThinMaterial)
+                    .frame(width: 165, height: 30)
+                    .padding(EdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 6))
+                    .background(.white.opacity(0.08))
                     .clipShape(.rect(cornerRadius: 10))
                     .padding(5)
 

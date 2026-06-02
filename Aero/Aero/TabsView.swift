@@ -36,7 +36,7 @@ struct TabsView: View {
                     Text(tab.url)
                         .lineLimit(1)
                         .truncationMode(.tail)
-                        .frame(maxWidth: 180, alignment: .leading)
+                        .frame(maxWidth: 160, alignment: .leading)
                         .padding(.vertical, 6)
                         .padding(.horizontal, 12)
                 }
