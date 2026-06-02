@@ -18,7 +18,9 @@ struct ContentView: View {
                 VStack(alignment: .center) {
                     HStack(spacing: 12) {
                         Button(action: {
-                            showAI.toggle()
+                            withAnimation {
+                                showAI.toggle()
+                            }
                         }, label: {
                             Image(systemName: "star.bubble")
                         })
@@ -104,6 +106,7 @@ struct ContentView: View {
                                 WebView(url: URL(string: "https://chatgpt.com")!)
                                     .frame(width: 350)
                                     .clipShape(.rect(cornerRadius: 10))
+                                    .transition(.move(edge: .trailing))
                             }
                         }
                     }
