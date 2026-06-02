@@ -59,7 +59,12 @@ struct ContentView: View {
                 }
                 .frame(width: 200)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
-                tabs[currentIndex ?? 0].webView
+                ZStack {
+                    ForEach(tabs) { tab in
+                        tab.webView
+                            .opacity(curTab == tab.id ? 1 : 0)
+                    }
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(.white.opacity(1/4))
                     .clipShape(.rect(cornerRadius: 10))

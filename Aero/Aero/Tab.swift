@@ -15,7 +15,7 @@ struct Tab: Identifiable {
     init(id: UUID = UUID(), url: String, webView: WebView) {
         self.id = id
         self.url = url
-        self.webView = WebView(url: URL(string: url)!)
+        self.webView = webView
     }
 }
 
