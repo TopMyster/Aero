@@ -12,8 +12,6 @@ struct WebView: NSViewRepresentable {
     
     let url: URL
     
-    
-    
     func makeNSView(context: Context) -> WKWebView {
         let view = WKWebView()
         view.customUserAgent =

@@ -3,8 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingCommandBar = false
     @State private var newUrl = ""
-    @State private var tabs: [Tab] = [Tab(url: "https://apple.com", webView: WebView(url: URL(string: "https://apple.com")!))
-]
+    @State private var tabs: [Tab] = []
     @State private var curTab: UUID = UUID()
 
     var currentIndex: Int? {
@@ -35,8 +34,9 @@ struct ContentView: View {
                                     formatted = "https://www.google.com/search?q=\(query)"
                                 }
 
-                                if let index = currentIndex {
+                                if let index = tabs.firstIndex(where: { $0.id == curTab }) {
                                     tabs[index].url = formatted
+                                    newUrl = formatted
                                 }
                             }
                     }
