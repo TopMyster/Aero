@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var newUrl = ""
     @State private var tabs: [Tab] = []
     @State private var curTab: UUID = UUID()
+    @State private var showAI: Bool = false
 
     var currentIndex: Int? {
         tabs.firstIndex { $0.id == curTab }
@@ -15,7 +16,40 @@ struct ContentView: View {
             HStack(spacing: 0) {
 
                 VStack(alignment: .center) {
-
+                    HStack(spacing: 12) {
+                        Button(action: {
+                            showAI.toggle()
+                        }, label: {
+                            Image(systemName: "star.bubble")
+                        })
+                        .buttonStyle(.plain)
+                        
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "arrow.backward")
+                        })
+                        .buttonStyle(.plain)
+                        
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "arrow.forward")
+                        })
+                        .buttonStyle(.plain)
+                        
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "arrow.clockwise")
+                        }).buttonStyle(.plain)
+                        
+                    }
+                    .padding(.leading, 60)
+                    .padding(.top, 8)
+                    .padding(.bottom, 5)
+                    
+                    
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
@@ -58,11 +92,20 @@ struct ContentView: View {
                     Spacer()
                 }
                 .frame(width: 200)
+                .ignoresSafeArea()
                 .frame(maxHeight: .infinity, alignment: .topLeading)
                 ZStack {
                     ForEach(tabs) { tab in
-                        tab.webView
-                            .opacity(curTab == tab.id ? 1 : 0)
+                        HStack(spacing: 2) {
+                            tab.webView
+                                .opacity(curTab == tab.id ? 1 : 0)
+                                .clipShape(.rect(cornerRadius: 10))
+                            if showAI {
+                                WebView(url: URL(string: "https://chatgpt.com")!)
+                                    .frame(width: 350)
+                                    .clipShape(.rect(cornerRadius: 10))
+                            }
+                        }
                     }
                 }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
