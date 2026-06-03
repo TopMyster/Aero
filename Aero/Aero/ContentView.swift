@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 struct ContentView: View {
     @State private var showingCommandBar = false
@@ -22,34 +23,36 @@ struct ContentView: View {
                                 showAI.toggle()
                             }
                         }, label: {
-                            Image(systemName: "star.bubble")
+                            Image(systemName: "sparkle")
                         })
                         .buttonStyle(.plain)
                         
                         Button(action: {
-                            
+
                         }, label: {
                             Image(systemName: "arrow.backward")
                         })
                         .buttonStyle(.plain)
                         
                         Button(action: {
-                            
+
                         }, label: {
                             Image(systemName: "arrow.forward")
                         })
                         .buttonStyle(.plain)
                         
                         Button(action: {
-                            
+
                         }, label: {
                             Image(systemName: "arrow.clockwise")
-                        }).buttonStyle(.plain)
+                        })
+                        .buttonStyle(.plain)
                         
                     }
-                    .padding(.leading, 60)
-                    .padding(.top, 8)
-                    .padding(.bottom, 5)
+                    .padding(.leading, 65)
+                    .font(.custom("btn", size: 15))
+                    .padding(.top, 12)
+                    .padding(.bottom, 3)
                     
                     
                     HStack {
@@ -71,7 +74,9 @@ struct ContentView: View {
                                 }
 
                                 if let index = tabs.firstIndex(where: { $0.id == curTab }) {
-                                    tabs[index].url = formatted
+                                    withAnimation {
+                                        tabs[index].url = formatted
+                                    }
                                     newUrl = formatted
                                 }
                             }
@@ -100,13 +105,14 @@ struct ContentView: View {
                     ForEach(tabs) { tab in
                         HStack(spacing: 2) {
                             tab.webView
+                                .transition(.blurReplace)
                                 .opacity(curTab == tab.id ? 1 : 0)
                                 .clipShape(.rect(cornerRadius: 10))
                             if showAI {
                                 WebView(url: URL(string: "https://chatgpt.com")!)
                                     .frame(width: 350)
                                     .clipShape(.rect(cornerRadius: 10))
-                                    .transition(.move(edge: .trailing))
+                                
                             }
                         }
                     }
@@ -121,11 +127,20 @@ struct ContentView: View {
         }
         .onAppear {
             if let first = tabs.first {
-                curTab = first.id
+                withAnimation {
+                    curTab = first.id
+                }
+            }
+            if let window = NSApp.windows.first {
+                window.standardWindowButton(.closeButton)?.setFrameOrigin(NSPoint(x: 15, y: 3.5))
+                window.standardWindowButton(.miniaturizeButton)?.setFrameOrigin(NSPoint(x: 35, y: 3.5))
+                window.standardWindowButton(.zoomButton)?.setFrameOrigin(NSPoint(x: 55, y: 3.5))
             }
         }
         .onTapGesture {
-            showingCommandBar = false
+            withAnimation {
+                showingCommandBar = false
+            }
         }
         .overlay {
             if showingCommandBar {
@@ -133,11 +148,14 @@ struct ContentView: View {
                     Color.black.opacity(0.25)
                         .ignoresSafeArea()
                         .onTapGesture {
-                            showingCommandBar = false
+                            withAnimation {
+                                showingCommandBar = false
+                            }
                         }
 
                     CommandBarView(newUrl: $newUrl)
-                        .clipShape(.rect(cornerRadius: 15))
+                        .transition(.move(edge: .bottom))
+                        .padding(.bottom, 15)
                         .onSubmit {
 
                             var formatted: String
@@ -153,20 +171,29 @@ struct ContentView: View {
 
                             let newTab = Tab(url: formatted, webView: WebView(url: URL(string: formatted)!))
 
-                            tabs.append(newTab)
-                            curTab = newTab.id
+                            withAnimation {
+                                tabs.append(newTab)
+                                curTab = newTab.id
+                            }
 
                             newUrl = ""
-                            showingCommandBar = false
+                            withAnimation {
+                                showingCommandBar = false
+                            }
                         }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        }.background {
+        }
+        .background {
             Button("") {
-                showingCommandBar.toggle()
-            }.opacity(0)
-        }.keyboardShortcut("t", modifiers: .command)
+                withAnimation {
+                    showingCommandBar.toggle()
+                }
+            }
+            .opacity(0)
+        }
+        .keyboardShortcut("t", modifiers: .command)
     }
 }
 

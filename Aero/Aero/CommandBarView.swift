@@ -16,9 +16,15 @@ struct CommandBarView: View {
             TextField("Search Here...", text: $newUrl)
                 .textFieldStyle(.plain)
         }
+        .transition(.move(edge: .bottom))
         .frame(width: 480)
-        .font(.system(size: 18))
+        .font(.system(size: 20))
         .background(.ultraThinMaterial)
-        .shadow(radius: 15)
+        .clipShape(.rect(cornerRadius: 15))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.gray, lineWidth: 0.5)
+        )
+        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 2)
     }
 }
