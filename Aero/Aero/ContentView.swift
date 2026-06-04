@@ -103,7 +103,7 @@ struct ContentView: View {
                 .frame(maxHeight: .infinity, alignment: .topLeading)
                 ZStack {
                     ForEach(tabs) { tab in
-                        HStack(spacing: 2) {
+                        HStack(spacing: 3) {
                             tab.webView
                                 .transition(.blurReplace)
                                 .opacity(curTab == tab.id ? 1 : 0)
