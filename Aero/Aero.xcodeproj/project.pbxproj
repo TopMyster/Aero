@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		13D4AC542FCDB52B00C5810D /* Aero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aero.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13D4AC542FCDB52B00C5810D /* Aero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Aero.app; path = "/Users/toopeoladunjoye/Git Clones/Aero/Aero/build/Debug/Aero.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				13D4AC562FCDB52B00C5810D /* Aero */,
-				13D4AC552FCDB52B00C5810D /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		13D4AC552FCDB52B00C5810D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				13D4AC542FCDB52B00C5810D /* Aero.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = 13D4AC4B2FCDB52A00C5810D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 13D4AC552FCDB52B00C5810D /* Products */;
+			productRefGroup = 13D4AC4B2FCDB52A00C5810D;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

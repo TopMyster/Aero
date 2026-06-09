@@ -11,11 +11,14 @@ struct Tab: Identifiable {
     var id = UUID()
     var url: String 
     var webView: WebView
+    var container = WebViewContainer()
     
     init(id: UUID = UUID(), url: String, webView: WebView) {
         self.id = id
         self.url = url
-        self.webView = webView
+        let container = WebViewContainer()
+        self.webView = WebView(url: webView.url, container: container)
+        self.container = container
     }
 }
 

@@ -1,5 +1,7 @@
 import SwiftUI
 import AppKit
+internal import WebKit
+
 
 struct ContentView: View {
     @State private var showingCommandBar = false
@@ -28,21 +30,27 @@ struct ContentView: View {
                         .buttonStyle(.plain)
                         
                         Button(action: {
-
+                            if let index = currentIndex {
+                                tabs[index].container.webView?.goBack()
+                            }
                         }, label: {
                             Image(systemName: "arrow.backward")
                         })
                         .buttonStyle(.plain)
                         
                         Button(action: {
-
+                            if let index = currentIndex {
+                                tabs[index].container.webView?.goForward()
+                            }
                         }, label: {
                             Image(systemName: "arrow.forward")
                         })
                         .buttonStyle(.plain)
                         
                         Button(action: {
-
+                            if let index = currentIndex {
+                                tabs[index].container.webView?.reload()
+                            }
                         }, label: {
                             Image(systemName: "arrow.clockwise")
                         })
